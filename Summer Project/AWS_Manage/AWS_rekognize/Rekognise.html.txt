@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Upload and Detect Labels</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+    }
+    .container {
+        max-width: 800px;
+        margin: 20px auto;
+        padding: 20px;
+        background-color: #fff;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    label {
+        font-size: 18px;
+        margin-bottom: 10px;
+    }
+    input[type="file"] {
+        margin-top: 10px;
+    }
+    button[type="submit"] {
+        padding: 10px 20px;
+        font-size: 16px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        margin-top: 10px;
+    }
+</style>
+</head>
+<body>
+    <div class="container">
+        <h1>Upload an Image and Detect Labels</h1>
+        <form action="/cgi-bin/awsr.py" method="post" enctype="multipart/form-data">
+            <label for="myfile">Choose an image:</label>
+            <input type="file" name="myfile" accept="image/*" required>
+            <button type="submit">Upload and Detect Labels</button>
+        </form>
+    </div>
+</body>
+</html>

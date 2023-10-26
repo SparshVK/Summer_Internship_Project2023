@@ -1,0 +1,29 @@
+#!/usr/bin/python3
+
+import cgi
+
+import cgitb
+cgitb.enable()
+
+
+form = cgi.FieldStorage()
+
+myfilename = form["myfile"]
+
+print("content-type: text/html")
+print()
+
+
+fh = myfilename.file
+filedata = fh.read()
+
+
+yourfile = myfilename.filename
+
+
+fh =open( yourfile  , "wb")
+fh.write( filedata )
+fh.close()
+
+
+print("Picture registered in Ec2...")

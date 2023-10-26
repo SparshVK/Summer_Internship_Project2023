@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <title>Get Live Coordinates</title>
+</head>
+<body>
+    <h1>Get Live Coordinates</h1>
+    <form action="/cgi-bin/loc.py" method="post"> <input type="submit" name="get_coordinates" value="Get Live Coordinates">
+    </form>
+</body>
+</html>

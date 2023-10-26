@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Real-Time Location Finder</title>
+</head>
+<body>
+    <h1>Real-Time Location Finder</h1>
+    <form action="/cgi-bin/locplace.py" method="post">
+        <input type="hidden" name="get_location" value="true">
+        <input type="submit" value="Get Real-Time Location">
+    </form>
+    <br>
+    <div id="location_info">
+        <!-- Location information will be displayed here -->
+    </div>
+</body>
+</html>
