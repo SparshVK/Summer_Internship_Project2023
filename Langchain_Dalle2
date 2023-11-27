@@ -1,0 +1,44 @@
+from langchain.llms import OpenAI
+import os
+#os.environ["OPENAI_API_KEY"] = "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"
+os.environ["OPENAI_API_KEY"] = "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"
+from langchain.agents import load_tools
+from langchain.agents import initialize_agent
+
+
+llm = OpenAI(temperature=0.9)
+tools = load_tools(['dalle-image-generator'])
+agent = initialize_agent(tools, llm, agent="zero-shot-react-description", verbose=True)
+output = agent.run("Create an image of a halloween night")
+OUTPUT:
+> Entering new AgentExecutor chain...
+ I should use a tool to create the image
+Action: Dall-E Image Generator
+Action Input: an image of a halloween night
+Observation: https://oaidalleapiprodscus.blob.core.windows.net/private/org-5sKOUryNcoABidejsws9r9Ku/user-sYNBIrQiLaD4L7yi3t2yjJ0I/img-KcUcvnu3b18eaWzVhWRMvsmh.png?st=2023-08-20T08%3A19%3A47Z&se=2023-08-20T10%3A19%3A47Z&sp=r&sv=2021-08-06&sr=b&rscd=inline&rsct=image/png&skoid=6aaadede-4fb3-4698-a8f6-684d7786b067&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2023-08-19T23%3A22%3A06Z&ske=2023-08-20T23%3A22%3A06Z&sks=b&skv=2021-08-06&sig=heUW/DuYrp%2BbU7FAcMBjNiyRv7tcNxKvoefrFwzcv54%3D
+Thought: I now know the final answer
+Final Answer: An image of a halloween night, as seen here: https://oaidalleapiprodscus.blob.core.windows.net/private/org-5sKOUryNcoABidejsws9r9Ku/user-sYNBIrQiLaD4L7yi3t2yjJ0I/img-KcUcvnu3b18eaWzVhWRMvsmh.png?st=2023-08-20T08%3A19%3A47Z&se=2023-08-20T10%3A19%3A47Z&sp=r&sv=2021-08-06&sr=b&rscd=inline&rsct=image/png&skoid=6aaadede-4fb3-4698-a8f6-684d7786b067&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2023-08-19T23%3A22%3A06
+
+> Finished chain.
+----------------------------------------
+
+import openai
+from langchain.llms import OpenAI
+import os
+os.environ["OPENAI_API_KEY"] = "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"
+from langchain.utilities.dalle_image_generator import DallEAPIWrapper
+from langchain.prompts import PromptTemplate
+from langchain.chains import LLMChain
+from langchain.llms import OpenAI
+
+llm = OpenAI(temperature=0.9)
+prompt = PromptTemplate(
+    input_variables=["image_desc"],
+    template="Generate a detailed prompt to generate an image based on the following description: {image_desc}",
+)
+chain = LLMChain(llm=llm, prompt=prompt)
+image_url = DallEAPIWrapper().run(chain.run("Burj Khalifa"))
+#image_url = 'https://oaidalleapiprodscus.blob.core.windows.net/private/org-i0zjYONU3PemzJ222esBaAzZ/user-f6uEIOFxoiUZivy567cDSWni/img-i7Z2ZxvJ4IbbdAiO6OXJgS3v.png?st=2023-08-11T14%3A03%3A14Z&se=2023-08-11T16%3A03%3A14Z&sp=r&sv=2021-08-06&sr=b&rscd=inline&rsct=image/png&skoid=6aaadede-4fb3-4698-a8f6-684d7786b067&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2023-08-10T20%3A58%3A32Z&ske=2023-08-11T20%3A58%3A32Z&sks=b&skv=2021-08-06&sig=/sECe7C0EAq37ssgBm7g7JkVIM/Q1W3xOstd0Go6slA%3D'
+print(image_url)
+OUTPUT:
+https://oaidalleapiprodscus.blob.core.windows.net/private/org-5sKOUryNcoABidejsws9r9Ku/user-sYNBIrQiLaD4L7yi3t2yjJ0I/img-P6kBlrRDHuMaiOMLYvW8o26H.png?st=2023-09-13T09%3A28%3A52Z&se=2023-09-13T11%3A28%3A52Z&sp=r&sv=2021-08-06&sr=b&rscd=inline&rsct=image/png&skoid=6aaadede-4fb3-4698-a8f6-684d7786b067&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2023-09-13T03%3A09%3A51Z&ske=2023-09-14T03%3A09%3A51Z&sks=b&skv=2021-08-06&sig=3l9fnuukxme9NH8r8YXPOCf%2BqYkunNY6B6Vl53b0wkI%3D
