@@ -1,0 +1,165 @@
+!pip install langchain
+!pip install insta-api
+
+key = "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"
+import openai
+#openai.api_key= key
+from langchain.llms import OpenAI  # llm - we use this to just interact with gpt nothing else; since it has access to 
+# all the knowledge & resources of realtime as well as it can communicate with Insta, LinkedIn etc social media platforms
+# and combining it with GPT we make it the Superpower
+myllm = OpenAI(
+    model = 'text-davinci-003',
+    temperature=1,
+    openai_api_key=key
+)
+response=myllm.generate(prompts=['Tell me top two {n} in India.n=cities'])
+
+-----------
+response.json
+OUTPUT:
+<bound method BaseModel.json of LLMResult(generations=[[Generation(text='\n\n1. Delhi\n2. Mumbai', generation_info={'finish_reason': 'stop', 'logprobs': None})]], llm_output={'token_usage': {'prompt_tokens': 14, 'total_tokens': 23, 'completion_tokens': 9}, 'model_name': 'text-davinci-003'}, run=[RunInfo(run_id=UUID('730aab8b-0f5b-4b52-88a9-973ea4b2afe7'))])>
+-----------
+
+print(myllm(prompt='Tell me top two {n} in India.n=place'))
+OUTPUT:
+1. Taj Mahal, Agra
+2. Qutub Minar, Delhi
+----------------
+from langchain.prompts import PromptTemplate
+mylwprompt = PromptTemplate(
+    template="Tell me top two {item} in {country}.",
+    input_variables=["item","country"]
+)
+----------------
+mylwprompt.format(item="city",country="USA")
+OUTPUT:
+The two most populous cities in the United States are New York City and Los Angeles.
+-------------
+
+
+
+-----------------
+from langchain.chains import LLMChain
+mychain=LLMChain(
+    llm=myllm,
+    prompt=mylwprompt
+)
+mychain.run(item="food",country="India")
+----------------
+# LangChain knpws how to connect to each and every data source(Google Search,Linux terminal...run any command,
+#Twitter, Drive etc.) :- 
+#i.e. it has all tools in toolit
+!pip install google-search-results
+OUTPUT:
+Collecting google-search-results
+  Downloading google_search_results-2.4.2.tar.gz (18 kB)
+  Preparing metadata (setup.py): started
+  Preparing metadata (setup.py): finished with status 'done'
+Requirement already satisfied: requests in c:\users\pc\anaconda3\lib\site-packages (from google-search-results) (2.29.0)
+Requirement already satisfied: charset-normalizer<4,>=2 in c:\users\pc\anaconda3\lib\site-packages (from requests->google-search-results) (2.0.4)
+Requirement already satisfied: idna<4,>=2.5 in c:\users\pc\anaconda3\lib\site-packages (from requests->google-search-results) (3.4)
+Requirement already satisfied: urllib3<1.27,>=1.21.1 in c:\users\pc\anaconda3\lib\site-packages (from requests->google-search-results) (1.26.16)
+Requirement already satisfied: certifi>=2017.4.17 in c:\users\pc\anaconda3\lib\site-packages (from requests->google-search-results) (2023.5.7)
+Building wheels for collected packages: google-search-results
+  Building wheel for google-search-results (setup.py): started
+  Building wheel for google-search-results (setup.py): finished with status 'done'
+  Created wheel for google-search-results: filename=google_search_results-2.4.2-py3-none-any.whl size=32077 sha256=94b78fa2fe0fadcbaca06920a724bf6f49bef7c2a29a2f3939b343ae9af78428
+  Stored in directory: c:\users\pc\appdata\local\pip\cache\wheels\6e\42\3e\aeb691b02cb7175ec70e2da04b5658d4739d2b41e5f73cd06f
+Successfully built google-search-results
+Installing collected packages: google-search-results
+Successfully installed google-search-results-2.4.2
+----------------------------
+from langchain.agents import load_tools
+import os
+myserpkey="b2fa14d13cfa9aea3db26bd8c5d84007b5abebbbaf923b833a2fd967061a8b82"
+#allserp="29fdb57b77msh151bb3e5b316c61p10639fjsn7fae9dc6a86e"
+OUTPUT:
+#serp: Search Engine Result pages
+---------------------
+os.environ['SERPAPI_API_KEY'] = myserpkey
+#os.environ['SERPAPI_API_KEY'] = allserp
+myserptool = load_tools(tool_names=["serpapi"])
+#Intelligent search using Langchain 'Agent'- by changing keywords
+from langchain.agents import initialize_agent
+from langchain.agents import AgentType
+mygooglechain = initialize_agent(
+    llm=myllm,
+    tools=myserptool,
+    agent=AgentType.CHAT_ZERO_SHOT_REACT_DESCRIPTION,
+    verbose=True
+)
+mygooglechain.run("when chandrayan 3 launched in India")
+# Thinking power - ChatGPT
+# Data resources - Google
+#insta, fb, tweet, drive, mail,aws
+OUTPUT:
+
+> Entering new AgentExecutor chain...
+
+Thought: I should look for information about the date of the Chandrayaan 3 launch
+Action:
+```
+{
+  "action": "Search",
+  "action_input": "date of the Chandrayaan 3 launch in India"
+}
+```
+
+Observation: July 14, 2023
+Thought: I now know the date for the Chandrayaan 3 launch
+Final Answer: July 14, 2023
+
+> Finished chain.
+'July 14, 2023'
+----------------------------------------
+
+
+All resource as a whole:
+\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+key = "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"
+import openai
+#openai.api_key= key
+from langchain.llms import OpenAI  # llm - we use this to just interact with gpt nothing else; since it has access to 
+# all the knowledge & resources of realtime as well as it can communicate with Insta, LinkedIn etc social media platforms
+# and combining it with GPT we make it the Superpower
+myllm = OpenAI(
+    model = 'text-davinci-003',
+    temperature=1,
+    openai_api_key=key
+)
+from langchain.agents import load_tools
+import os
+myserpkey="b2fa14d13cfa9aea3db26bd8c5d84007b5abebbbaf923b833a2fd967061a8b82"
+#allserp="29fdb57b77msh151bb3e5b316c61p10639fjsn7fae9dc6a86e"
+os.environ['SERPAPI_API_KEY'] = myserpkey
+#os.environ['SERPAPI_API_KEY'] = allserp
+myserptool = load_tools(tool_names=["serpapi"]) # serpapi is a Google search api
+from langchain.agents import initialize_agent
+from langchain.agents import AgentType
+mygooglechain = initialize_agent(
+    llm=myllm,
+    tools=myserptool,
+    agent=AgentType.CHAT_ZERO_SHOT_REACT_DESCRIPTION,
+    verbose=True
+)
+mygooglechain.run("when did AdityaL1 was launched by India ")
+OUTPUT:
+
+> Entering new AgentExecutor chain...
+Thought: I need to find out when AdityaL1 was launched by India.
+Action: 
+```
+{
+  "action": "Search",
+  "action_input": "when was AdityaL1 launched by India"
+}
+```
+
+Observation: 2 September 2023
+Thought: I now know the final answer
+Final Answer: AdityaL1 was launched by India on 2 September 2023.
+
+> Finished chain.
+'AdityaL1 was launched by India on 2 September 2023.'
+\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
