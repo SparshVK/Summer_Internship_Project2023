@@ -1,2 +1,1 @@
-# Cloud - Menu Website
-# Summer_Internship_Project2023
+# Cloud - Menu Website (A Summer_Internship_Project2023)
